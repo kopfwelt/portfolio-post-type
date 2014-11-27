@@ -81,6 +81,10 @@ class Portfolio_Post_Type {
 		add_action( '@TODO', array( $this, 'action_method_name' ) );
 		add_filter( '@TODO', array( $this, 'filter_method_name' ) );
 
+		/* Register custom post type
+		 */
+		add_filter( 'init', array( $this, 'register_post_types' ) );
+
 	}
 
 	/**
@@ -302,6 +306,139 @@ class Portfolio_Post_Type {
 	 */
 	public function filter_method_name() {
 		// @TODO: Define your filter hook callback here
+	}
+
+	public function register_post_types() {
+
+		$domain = $this->plugin_slug;
+		
+		$labels = array(
+			'name'               => _x( 'Portfolios', 'post type general name', $domain ),
+			'singular_name'      => _x( 'Portfolios', 'post type singular name', $domain ),
+			'menu_name'          => _x( 'Portfolioss', 'admin menu', $domain ),
+			'name_admin_bar'     => _x( 'Portfolios', 'add new on admin bar', $domain ),
+			'add_new'            => _x( 'Add New', 'book', $domain ),
+			'add_new_item'       => __( 'Add New Portfolios', $domain ),
+			'new_item'           => __( 'New Portfolios', $domain ),
+			'edit_item'          => __( 'Edit Portfolios', $domain ),
+			'view_item'          => __( 'View Portfolios', $domain ),
+			'all_items'          => __( 'All Portfolioss', $domain ),
+			'search_items'       => __( 'Search Portfolioss', $domain ),
+			'parent_item_colon'  => __( 'Parent Portfolioss:', $domain ),
+			'not_found'          => __( 'No books found.', $domain ),
+			'not_found_in_trash' => __( 'No books found in Trash.', $domain )
+		);
+
+		$args = array(
+			'labels'             => $labels,
+			'public'             => true,
+			'publicly_queryable' => true,
+			'show_ui'            => true,
+			'show_in_menu'       => true,
+			'query_var'          => true,
+			'rewrite'            => array( 'slug' => 'portfolio' ),
+			'capability_type'    => 'post',
+			'has_archive'        => true,
+			'hierarchical'       => false,
+			'menu_position'      => null,
+			'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'comments' )
+		);
+
+		register_post_type( 'portfolio', $args );
+
+
+		// register_taxonomy(
+		// 	'portfolio',
+		// 	'article',
+		// 	array(
+		// 	'label' => __( 'People' ),
+		// 	'rewrite' => array( 'slug' => 'person' )
+		// 	// 'capabilities' => array(
+		// 	//     'assign_terms' => 'edit_guides',
+		// 	//     'edit_terms' => 'publish_guides'
+		// 	// )
+		// 	)
+		// 	);
+
+		//
+		// Here comes the ninja shit
+		//
+		// function people_init() {
+		//     // add people taxonomy
+		//     register_taxonomy(
+		//         'people',
+		//         'article',
+		//         array(
+		//             'label' => __( 'People' ),
+		//             'rewrite' => array( 'slug' => 'person' )
+		//             // 'capabilities' => array(
+		//             //     'assign_terms' => 'edit_guides',
+		//             //     'edit_terms' => 'publish_guides'
+		//             // )
+		//         )
+		//     );
+
+		//     // add places taxonomy
+		//     register_taxonomy(
+		//         'places',
+		//         'article',
+		//         array(
+		//             'label' => __( 'Places' ),
+		//             'rewrite' => array( 'slug' => 'place' )
+		//             // 'capabilities' => array(
+		//             //     'assign_terms' => 'edit_guides',
+		//             //     'edit_terms' => 'publish_guides'
+		//             // )
+		//         )
+		//     );
+
+		//     // add topics taxonomy
+		//     register_taxonomy(
+		//         'topics',
+		//         'article',
+		//         array(
+		//             'label' => __( 'Topics' ),
+		//             'rewrite' => array( 'slug' => 'topic' )
+		//             // 'capabilities' => array(
+		//             //     'assign_terms' => 'edit_guides',
+		//             //     'edit_terms' => 'publish_guides'
+		//             // )
+		//         )
+		//     );
+
+		//     // add topics taxonomy
+		//     register_taxonomy(
+		//         'format',
+		//         'article',
+		//         array(
+		//             'label' => __( 'Format' )
+		//         )
+		//     );
+		//     // add topics taxonomy
+		//     register_taxonomy(
+		//         'issue',
+		//         'article',
+		//         array(
+		//             'label' => __( 'Issue' )
+		//         )
+		//     );
+		// }
+		// add_action( 'init', 'people_init' );
+
+		// function article_taxonomies_init() {
+
+		// 	// add topics taxonomy
+		// 	register_taxonomy('issue', 'article', array(
+		// 			'label' => __('Issue')
+		// 			// 'rewrite' => array(
+		// 			// 	'slug' => 'space',
+		// 			// 	'with_front' => false,
+		// 			// 	'hierarchical' => false
+		// 			// )
+		// 		)
+		// 	);
+		// 	register_taxonomy('format', 'article', array('label' => __('Format')));
+		// }
 	}
 
 }
